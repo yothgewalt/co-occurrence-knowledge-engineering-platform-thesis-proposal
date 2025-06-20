@@ -626,12 +626,151 @@
             \item การทดสอบระบบ: 15\%
             \item การจัดทำเอกสารและส่งมอบ: 5\%
         \end{itemize}
-
-        \hspace{1cm}การแบ่งสัดส่วนดังกล่าวช่วยให้สามารถติดตามความก้าวหน้าได้อย่างแม่นยำ และสามารถประเมินได้ว่าโครงงานดำเนินไปตามแผนที่วางไว้หรือไม่ รวมถึงช่วยในการจัดสรรทรัพยากรและเวลาให้เหมาะสมกับความสำคัญของแต่ละขั้นตอน
     }
 
-    \item[2.7] ทรัพยากรที่ต้องใช้ในการจัดทำโครงงานพิเศษ
+    \vspace{2.2cm}
 
+    \item[2.7] ทรัพยากรที่ต้องใช้ในการจัดทำโครงงานพิเศษ
+    \vspace{0.05cm}
+    \\
+    \textlight{
+        \hspace{1cm}การพัฒนาแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ต้องใช้ทรัพยากรหลากหลายประเภทเพื่อให้การดำเนินงานมีประสิทธิภาพและบรรลุวัตถุประสงค์ที่กำหนดไว้ โดยทรัพยากรเหล่านี้จะแบ่งออกเป็นหมวดหมู่ต่าง ๆ ตามลักษณะการใช้งานและความสำคัญต่อโครงงาน
+
+        \vspace{0.5cm}
+
+        \textbf{ทรัพยากรหลัก (Primary Resources)}
+
+        \begin{enumerate}
+            \item[2.7.1] \textbf{ทรัพยากรด้านฮาร์ดแวร์และโครงสร้างพื้นฐาน}
+            \begin{enumerate}
+                \item[2.7.1.1] \textbf{เครื่องคอมพิวเตอร์สำหรับการพัฒนา}
+                \begin{enumerate}
+                    \item[2.7.1.1.1] MacBook (CPU: Apple M2, RAM: 16GB ขึ้นไป, SSD: 256GB ขึ้นไป)
+                    \item[2.7.1.1.2] จอภาพเพิ่มเติมขนาด 24-27 นิ้ว สำหรับการแสดงผลและออกแบบ
+                    \item[2.7.1.1.3] อุปกรณ์รับเสียงและไมโครโฟนสำหรับการจัดทำวิดีโอการนำเสนอ
+                \end{enumerate}
+                
+                \item[2.7.1.2] \textbf{คลาวด์เซิร์ฟเวอร์และบริการ}
+                \begin{enumerate}
+                    \item[2.7.1.2.1] Virtual Private Server (VPS) หรือ Cloud Instance สำหรับ Development และ Testing Environment
+                    \item[2.7.1.2.2] Production Server พร้อม Load Balancer สำหรับการใช้งานจริง
+                    \item[2.7.1.2.3] Content Delivery Network (CDN) สำหรับการกระจายข้อมูลและเพิ่มประสิทธิภาพ
+                    \item[2.7.1.2.4] SSL/TLS Certificates สำหรับการรักษาความปลอดภัย
+                \end{enumerate}
+                
+                \item[2.7.1.3] \textbf{ระบบฐานข้อมูลและการจัดเก็บข้อมูล}
+                \begin{enumerate}
+                    \item[2.7.1.3.1] Graph Database (เช่น Neo4j, ArangoDB) สำหรับการจัดเก็บกราฟเครือข่าย
+                    \item[2.7.1.3.2] Document Database (MongoDB) สำหรับการจัดเก็บเอกสารและเมตาดาต้า
+                    \item[2.7.1.3.3] File Storage System (MinIO) สำหรับการจัดเก็บไฟล์ PDF และผลลัพธ์ที่ส่งออก
+                    \item[2.7.1.3.4] Cache Database (Redis) สำหรับการเพิ่มประสิทธิภาพการประมวลผล
+                \end{enumerate}
+            \end{enumerate}
+
+            \vspace{1cm}
+
+            \item[2.7.2] \textbf{ทรัพยากรด้านซอฟต์แวร์และเครื่องมือพัฒนา}
+            \begin{enumerate}
+                \item[2.7.2.1] \textbf{เครื่องมือการพัฒนาและ IDE}
+                \begin{enumerate}
+                    \item[2.7.2.1.1] Visual Studio Code สำหรับการเขียนโปรแกรม
+                    \item[2.7.2.1.2] Git และ GitHub สำหรับการจัดการเวอร์ชันโค้ด
+                    \item[2.7.2.1.3] Docker และ Docker Compose สำหรับการจัดการ Container
+                    \item[2.7.2.1.4] Kubernetes หรือ Docker Swarm สำหรับการ Orchestration
+                \end{enumerate}
+                
+                \item[2.7.2.2] \textbf{เครื่องมือการออกแบบและ UI/UX}
+                \begin{enumerate}
+                    \item[2.7.2.2.1] Figma สำหรับการออกแบบ Interface, Flowchart และ Prototyping
+                    \item[2.7.2.2.2] Excalidraw สำหรับการสร้าง Diagram ทั่วไป
+                \end{enumerate}
+                
+                \item[2.7.2.3] \textbf{เครื่องมือการทดสอบและการจัดการคุณภาพ}
+                \begin{enumerate}
+                    \item[2.7.2.3.1] Trivy สำหรับการวิเคราะห์ความปลอดภัยของ Container
+                    \item[2.7.2.3.2] Postman สำหรับการทดสอบ API
+                    \item[2.7.2.3.3] Performance Testing Tools (k6)
+                \end{enumerate}
+            \end{enumerate}
+
+            \vspace{1cm}
+
+            \item[2.7.3] \textbf{ทรัพยากรด้านเทคโนโลยีและภาษาโปรแกรม}
+            \begin{enumerate}
+                \item[2.7.3.1] \textbf{เทคโนโลยี Backend Development}
+                \begin{enumerate}
+                    \item[2.7.3.1.1] Go (Golang) สำหรับการพัฒนา High-Performance Backend Services
+                    \item[2.7.3.1.2] GraphQL สำหรับการสร้าง Flexible API
+                    \item[2.7.3.1.3] RESTful API Frameworks (Fiber for Go)
+                \end{enumerate}
+                
+                \item[2.7.3.2] \textbf{เทคโนโลยี Frontend Development}
+                \begin{enumerate}
+                    \item[2.7.3.2.1] React.js หรือ Next.js สำหรับการสร้าง Interactive Web Interface
+                    \item[2.7.3.2.2] TypeScript สำหรับการเพิ่มความปลอดภัยของโค้ด
+                    \item[2.7.3.2.3] D3.js หรือ Vis.js สำหรับการสร้าง Interactive Graph Visualization
+                    \item[2.7.3.2.4] CSS Frameworks (Tailwind CSS, Material-UI) สำหรับการออกแบบ
+                \end{enumerate}
+                
+                \item[2.7.3.3] \textbf{เทคโนโลยี Machine Learning และ NLP}
+                \begin{enumerate}
+                    \item[2.7.3.3.1] Python Libraries (NumPy, Pandas, Scikit-learn) สำหรับการวิเคราะห์ข้อมูล
+                    \item[2.7.3.3.2] Natural Language Processing Libraries (spaCy, NLTK, Transformers)
+                    \item[2.7.3.3.3] PDF Processing Libraries (PyPDF2, pdfplumber, Tesseract OCR)
+                    \item[2.7.3.3.4] Large Language Model APIs (OpenAI GPT, Google PaLM, Claude)
+                \end{enumerate}
+                
+                \item[2.7.3.4] \textbf{เทคโนโลยี DevOps และ Infrastructure}
+                \begin{enumerate}
+                    \item[2.7.3.4.1] CI/CD Tools (GitHub Actions, GitLab CI, Jenkins)
+                    \item[2.7.3.4.2] Infrastructure as Code (Terraform, CloudFormation)
+                    \item[2.7.3.4.3] Monitoring และ Logging (Prometheus, Grafana, ELK Stack)
+                    \item[2.7.3.4.4] Container Orchestration (Kubernetes, Docker Swarm)
+                \end{enumerate}
+            \end{enumerate}
+
+            \vspace{1cm}
+
+            \item[2.7.4] \textbf{ทรัพยากรด้านข้อมูลและการวิจัย}
+            \begin{enumerate}
+                \item[2.7.4.1] \textbf{ข้อมูลสำหรับการทดสอบและพัฒนา}
+                \begin{enumerate}
+                    \item[2.7.4.1.1] เอกสาร PDF ตัวอย่างจากแหล่งวิชาการต่าง ๆ สำหรับการทดสอบระบบ
+                    \item[2.7.4.1.2] Dataset ข้อมูลงานวิจัยและเอกสารทางวิชาการจากแหล่งเปิด
+                    \item[2.7.4.1.3] Sample Co-occurrence Networks สำหรับการเปรียบเทียบผลลัพธ์
+                \end{enumerate}
+                
+                \item[2.7.4.2] \textbf{แหล่งข้อมูลและการอ้างอิง}
+                \begin{enumerate}
+                    \item[2.7.4.2.1] การเข้าถึงฐานข้อมูลวิชาการ (IEEE Xplore, ACM Digital Library, SpringerLink)
+                    \item[2.7.4.2.2] เครื่องมือการจัดการ References (Zotero, Mendeley, EndNote)
+                    \item[2.7.4.2.3] Online Learning Resources และ Technical Documentation
+                    \item[2.7.4.2.4] การสมัครสมาชิก Professional Communities และ Forums
+                \end{enumerate}
+            \end{enumerate}
+
+            \vspace{1cm}
+
+            \item[2.7.5] \textbf{ทรัพยากรด้านบุคลากรและการสนับสนุน}
+            \begin{enumerate}
+                \item[2.7.5.1] \textbf{ทีมพัฒนาและที่ปรึกษา}
+                \begin{enumerate}
+                    \item[2.7.5.1.1] อาจารย์ที่ปรึกษาโครงงาน
+                \end{enumerate}
+            \end{enumerate}
+
+            \vspace{1cm}
+
+            \item[2.7.6] \textbf{ทรัพยากรด้านการเงินและงบประมาณ}
+            \begin{enumerate}
+                \item[2.7.6.1] \textbf{ค่าใช้จ่ายด้านโครงสร้างพื้นฐาน}
+                \begin{enumerate}
+                    \item[2.7.6.1.1] ค่า Cloud Server อยู่ที่ 0 บาท (ใช้ Cloud Server ของตนเอง จึงไม่นับค่าใช้จ่าย)
+                    \item[2.7.6.1.2] ค่าจัดทำปริญญานิพนธ์ ประมาณ 1,000 บาท
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    }
 \end{enumerate}
 
 \end{document}
