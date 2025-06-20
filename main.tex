@@ -1,7 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 
 % Page setup
-\usepackage[a4paper,top=1in,bottom=1in,left=1.5in,right=1in]{geometry}
+\usepackage[a4paper,top=1in,bottom=1in,left=0.5in,right=0.5in]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 
@@ -11,6 +11,7 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{xcolor}
 
 % Table packages
 \usepackage{array}
@@ -19,6 +20,9 @@
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{multicol}
+
+% List formatting
+\usepackage{enumitem}
 
 % Thai language support
 \usepackage{xunicode}
@@ -83,9 +87,9 @@
 \XeTeXlinebreakskip = 0pt plus 2pt minus 1pt
 
 % Thai typography enhancements
-\frenchspacing  % Better spacing for Thai text
-\tolerance=1000  % Allow more flexibility in line breaking
-\emergencystretch=3em  % Emergency stretch for better Thai line breaking
+\frenchspacing 
+\tolerance=1000
+\emergencystretch=3em
 
 % Thai punctuation spacing
 \XeTeXinterchartokenstate = 1
@@ -94,36 +98,69 @@
 \setlength{\parskip}{0.5\baselineskip plus 0.2\baselineskip minus 0.1\baselineskip}
 \setlength{\parindent}{2em}
 
+% Custom section numbering with period and reduced spacing
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+% Reduce space between section number and title with custom font weights
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\normalsize\fontseries{m}\selectfont}{\thesection}{0.3em}{}
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
+\titleformat{\subsection}
+  {\normalfont\normalsize\fontseries{m}\selectfont}{\thesubsection}{0.3em}{}
+\titlespacing*{\subsection}{0pt}{10pt plus 3pt minus 2pt}{4pt plus 2pt minus 1pt}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\fontseries{m}\selectfont}{\thesubsubsection}{0.3em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{3pt plus 1pt minus 1pt}
+
 \begin{document}
 
-% Title page
 \begin{center}
 \hfill\textlight{ทก.01}\\[1cm]
-
-\Large\textbf{แบบเสนอโครงงานพิเศษ (ปริญญานิพนธ์)}\\[0.5cm]
-\textbf{สาขาวิชาวิศวกรรมสารสนเทศและเครือข่าย ภาควิชาเทคโนโลยีสารสนเทศ}\\
-\textbf{คณะเทคโนโลยีและการจัดการอุตสาหกรรม}
+\large\textbf{แบบเสนอโครงงานพิเศษ (ปริญญานิพนธ์)}\\[0.3cm]
+\normalsize\textlight{สาขาวิชาวิศวกรรมสารสนเทศและเครือข่าย}\\[0.1cm]
+\normalsize\textlight{ภาควิชาเทคโนโลยีสารสนเทศ}\\[0.1cm]
+\normalsize\textlight{คณะเทคโนโลยีและการจัดการอุตสาหกรรม}\\[0.1cm]
 \end{center}
 
 \thispagestyle{empty}
-\vspace{2cm}
+\vspace{0.5cm}
 
+% Thesis information
 \section{ข้อมูลขั้นต้นของโครงงาน}
+\begin{enumerate}[leftmargin=2cm]
+\small
+    \item[1.1] ชื่อโครงงาน
+    \\ \textlight{(ภาษาไทย)} \hspace{0.5cm} {แพลตฟอร์มวิศวกรรมความรู้เชิงสัมพันธ์การปรากฏร่วม}
+    \\ \textlight{(ภาษาอังกฤษ)} \hspace{0.04cm} {Co-Occurrence Knowledge Engineering Platform}
 
-\subsection{ชื่อโครงงาน}
-\textbf{(ภาษาไทย)} สมาร์ทฟิต รูทีน\\
-\textbf{(ภาษาอังกฤษ)} Smart Fit Routine
+    \item[1.2] ชื่อนักศึกษาผู้ทำโครงงาน
+    \\ \textlight{ชื่อ-นามสกุล} \hspace{0.4cm} {นายยงยุทธ ชวนขุนทด}
+    \\ \textlight{สาขาวิชา} \hspace{0.935cm} {วิศวกรรมสารสนเทศและเครือข่าย}
+    \\ \textlight{ภาควิชา} \hspace{1.12cm} {เทคโนโลยีสารสนเทศ}
+    \\ \textlight{ภาคเรียนที่} \hspace{0.7cm} {1}
+    \\ \textlight{ปีการศึกษา} \hspace{0.67cm} {2568}
 
-\subsection{ชื่อนักศึกษาผู้ทำโครงงาน}
-1) นางสาวลลนา สุขรักษ์
+    \item[1.3] ชื่ออาจารย์ที่ปรึกษา
+    \\ \textlight{ชื่อ-นามสกุล} \hspace{0.47cm} {รองศาสตราจารย์ ดร. อนิราช มิ่งขวัญ}
+\end{enumerate}
 
-\subsection{ชื่ออาจารย์ที่ปรึกษา}
-1) อาจารย์สุภาพร ซิ้มเจริญ
-
+% Thesis details
 \section{รายละเอียดของโครงงาน}
-
-\subsection{ความเป็นมาและความสำคัญของปัญหา}
-[เนื้อหาความเป็นมาและความสำคัญของปัญหา...]
+\begin{enumerate}[leftmargin=2cm]
+\small
+    \item[2.1] ความเป็นมาและความสำคัญของปัญหา
+    \\[0.2cm]
+    \textlight{
+        ในยุคดิจิทัลปัจจุบัน ข้อมูลและความรู้ที่เกิดขึ้นในแต่ละวันมีปริมาณที่เพิ่มขึ้นอย่างรวดเร็ว โดยเฉพาะอย่างยิ่งเอกสารทางวิชาการ หนังสือ และงานวิจัยต่าง ๆ ที่มีการเผยแพร่ในรูปแบบดิจิทัล เช่น ไฟล์ PDF ซึ่งเป็นแหล่งความรู้ที่มีคุณค่าสูง อย่างไรก็ตาม การจัดการ การวิเคราะห์ และการค้นหาความเชื่อมโยงระหว่างความรู้จากเอกสารเหล่านี้ยังคงเป็นปัญหาที่ท้าทาย
+    ปัญหาหลักที่พบในปัจจุบันคือ การที่ผู้ใช้งานไม่สามารถมองเห็นภาพรวมของความสัมพันธ์และความเชื่อมโยงระหว่างแนวคิดต่าง ๆ ที่ปรากฏในเอกสารหลายฉบับได้อย่างชัดเจน การอ่านและทำความเข้าใจเอกสารแต่ละฉบับแยกกันทำให้เกิดการสูญเสียโอกาสในการค้นพบความรู้ใหม่ที่อาจเกิดขึ้นจากการเชื่อมโยงข้อมูลจากแหล่งที่แตกต่างกัน
+    นอกจากนี้ การวิเคราะห์ความถี่ของการใช้คำและการปรากฏร่วมของแนวคิดต่าง ๆ \textbf{(Co-occurrence)} ในเอกสารยังเป็นกระบวนการที่ซับซ้อนและใช้เวลามาก หากต้องทำด้วยมือหรือเครื่องมือพื้นฐาน ทำให้การสกัดความรู้และการสร้างความเข้าใจเชิงลึกจากเอกสารเป็นไปได้ยาก
+    ด้วยเหตุนี้ จึงจำเป็นต้องมีระบบที่สามารถแปลงเอกสารจากแหล่งต่าง ๆ ให้กลายเป็นกราฟเครือข่าย \textbf{(Network Graph)} ที่แสดงความสัมพันธ์และความเชื่อมโยงระหว่างแนวคิดได้อย่างชัดเจน รวมถึงสามารถสกัดส่วนของกราฟเพื่อนำไปผสมผสานกับข้อมูลจากแหล่งอื่น ๆ เพื่อสร้างความรู้ใหม่และค้นพบความเป็นไปได้ที่ไม่เคยมีมาก่อน ซึ่งจะช่วยเพิ่มประสิทธิภาพในการจัดการความรู้และส่งเสริมการเกิดนวัตกรรมใหม่ ๆ ในอนาคต
+    }
+    
+\end{enumerate}
 
 \subsection{วัตถุประสงค์ของการจัดทำโครงงานพิเศษ}
 \begin{enumerate}
@@ -201,7 +238,7 @@
 \subsubsection{แผนกิจกรรมหลักและระยะเวลา}
 
 \paragraph{ภาคการศึกษาที่ 1}
-\begin{table}[h!]
+\begin{table}[htbp]
     \centering
     \caption{แผนการดำเนินงานภาคการศึกษาที่ 1}
     \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -225,7 +262,7 @@
 \end{table}
 
 \paragraph{ภาคการศึกษาที่ 2}
-\begin{table}[h!]
+\begin{table}[htbp]
     \centering
     \caption{แผนการดำเนินงานภาคการศึกษาที่ 2}
     \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
