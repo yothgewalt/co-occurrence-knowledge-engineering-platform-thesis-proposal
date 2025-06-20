@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{etoolbox}
+\usepackage[a4paper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage[nonumberlist]{glossaries}
+
+% Thai language support
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+% Set fonts for Thai language
+\setmainfont[Path=./font/Sarabun/,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic]{Sarabun}
+
+\newfontfamily\thaifont[Path=./font/Sarabun/,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic]{Sarabun}
+
+% Additional packages for better Thai support
+\usepackage{polyglossia}
+\setdefaultlanguage{thai}
+\setotherlanguage{english}
+
+% Thai line breaking settings
+\XeTeXlinebreaklocale "th"
+\XeTeXlinebreakskip = 0pt plus 2pt minus 1pt
+
+\title{ข้อเสนอโครงการ}
+\author{ชื่อผู้เขียน}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{บทนำ}
+นี่คือตัวอย่างเอกสาร LaTeX ที่รองรับภาษาไทย โดยใช้ฟอนต์ Sarabun
+
+\section{วัตถุประสงค์}
+\begin{itemize}
+    \item วัตถุประสงค์ที่ 1
+    \item วัตถุประสงค์ที่ 2
+    \item วัตถุประสงค์ที่ 3
+\end{itemize}
+
+\section{Introduction (English)}
+\begin{english}
+This section demonstrates bilingual support. The document can contain both Thai and English text.
+\end{english}
+
+\section{สรุป}
+เอกสารนี้แสดงให้เห็นการใช้ภาษาไทยใน LaTeX อย่างสมบูรณ์
+
+\end{document}
+
