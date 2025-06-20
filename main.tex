@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{xcolor}
+\usepackage{colortbl}
 
 % Table packages
 \usepackage{array}
@@ -397,7 +398,33 @@
 
     \item[2.6] แผนกิจกรรมและตารางเวลาในการจัดทำ
     \vspace{0.05cm}
-    \textlight{}
+    \paragraph{ภาคการศึกษาที่ 1}
+    \begin{table}[htbp]
+        \centering
+        \caption{แผนการดำเนินงานภาคการศึกษาที่ 1}
+        \vspace{0.4cm}
+        \renewcommand{\arraystretch}{1.8}
+        \footnotesize
+        \begin{tabular}{|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|>{\centering\arraybackslash}p{0.5cm}|}
+            \hline
+            \multirow{2}{*}{\textbf{ขั้นตอน}} & \multicolumn{4}{c|}{\textbf{ก.ค.}} & \multicolumn{4}{c|}{\textbf{ส.ค.}} & \multicolumn{4}{c|}{\textbf{ก.ย.}} & \multicolumn{4}{c|}{\textbf{ต.ค.}} \\
+            \cline{2-17}
+            & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 \\
+            \hline
+            1 & \cellcolor{green!30} & \cellcolor{green!30} & & & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & & & & & & & & & \\
+            \hline
+            2 & & & \cellcolor{green!30} & \cellcolor{green!30} & & & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & & & & & & & \\
+            \hline
+            3 & & & & & & & & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & & & & & \\
+            \hline
+            4 & & & & & & & & & & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & & & \\
+            \hline
+            5 & & & & & & & & & & & & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} & \cellcolor{green!30} \\
+            \hline
+        \end{tabular}
+        \renewcommand{\arraystretch}{1}
+    \end{table}
+    
 
     \item[2.7] ทรัพยากรที่ต้องใช้ในการจัดทำโครงงานพิเศษ
     \vspace{0.05cm}
