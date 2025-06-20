@@ -293,7 +293,7 @@ ehthumbs_vista.db
 *#
 
 # IDEs
-.vscode/
+.vscode/tasks.json
 .idea/
 *.sublime-*
 
