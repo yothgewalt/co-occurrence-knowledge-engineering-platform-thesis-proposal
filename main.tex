@@ -397,8 +397,7 @@
     }
 
     \item[2.6] แผนกิจกรรมและตารางเวลาในการจัดทำ
-    \vspace{0.05cm}
-
+    \item[2.6.1] แผนกิจกรรมหลักและระยะเวลา
     \begin{table}[htbp]
         \centering
         \caption{แผนการดำเนินงานภาคการศึกษาที่ 1}
@@ -450,6 +449,188 @@
         \end{tabular}
         \renewcommand{\arraystretch}{1}
     \end{table}
+
+    \vspace{0.4cm}
+
+    \item[2.6.2] แผนภูมิขั้นตอนการจัดทำโครงงานพิเศษ โดยละเอียด
+    \vspace{0.05cm}
+    \\
+    \textlight{
+        \hspace{1cm}การพัฒนาแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform จะดำเนินการตามผังงานที่มีการแบ่งขั้นตอนและกิจกรรมอย่างชัดเจน พร้อมทั้งกำหนดอัตราส่วนของแต่ละกิจกรรมเป็นร้อยละเพื่อการติดตามความก้าวหน้าอย่างมีประสิทธิภาพ
+
+        \vspace{0.5cm}
+
+        \textbf{ผังงานการดำเนินงาน (Development Flow Chart)}
+
+        \vspace{0.3cm}
+
+        \textbf{Phase 1: การวางแผนและวิเคราะห์ (Planning \& Analysis Phase)} \textlight{- 15\% ของโครงงานทั้งหมด}
+
+        \begin{enumerate}
+            \item[1.1] \textbf{การวางแผนการพัฒนา (5\%)} 
+            \begin{enumerate}
+                \item[1.1.1] กำหนดขอบเขตโครงงานและวัตถุประสงค์
+                \item[1.1.2] วิเคราะห์ความเป็นไปได้ทางเทคนิค (Technical Feasibility)
+                \item[1.1.3] จัดทำ Project Charter และ Timeline
+                \item[1.1.4] กำหนดทรัพยากรและงบประมาณ
+            \end{enumerate}
+            
+            \item[1.2] \textbf{การเก็บความต้องการ (Requirements Gathering) (10\%)}
+            \begin{enumerate}
+                \item[1.2.1] วิเคราะห์ Functional Requirements
+                \item[1.2.2] วิเคราะห์ Non-Functional Requirements
+                \item[1.2.3] สร้าง Use Case Diagrams และ User Stories
+                \item[1.2.4] กำหนด Acceptance Criteria สำหรับแต่ละฟีเจอร์
+                \item[1.2.5] วิเคราะห์ข้อจำกัดและความเสี่ยง
+            \end{enumerate}
+        \end{enumerate}
+
+        \textbf{Phase 2: การออกแบบระบบ (System Design Phase)} \textlight{- 25\% ของโครงงานทั้งหมด}
+
+        \begin{enumerate}
+            \item[2.1] \textbf{การออกแบบ UI และ UX (12\%)}
+            \begin{enumerate}
+                \item[2.1.1] สร้าง User Persona และ User Journey Mapping
+                \item[2.1.2] ออกแบบ Wireframes และ Mockups ด้วย Figma
+                \item[2.1.3] สร้าง Interactive Prototypes
+                \item[2.1.4] ทดสอบ Usability และปรับปรุงการออกแบบ
+                \item[2.1.5] สร้าง Design System และ Component Library
+            \end{enumerate}
+            
+            \item[2.2] \textbf{การออกแบบสถาปัตยกรรมซอฟต์แวร์ (13\%)}
+            \begin{enumerate}
+                \item[2.2.1] ออกแบบ System Architecture และ Component Diagram
+                \item[2.2.2] ออกแบบ Database Schema และ Data Model
+                \item[2.2.3] ออกแบบ API Architecture และ Endpoints
+                \item[2.2.4] ออกแบบ Security Architecture และ Authentication
+                \item[2.2.5] ออกแบบ Deployment Architecture และ Infrastructure
+                \item[2.2.6] สร้าง Technical Specifications Document
+            \end{enumerate}
+        \end{enumerate}
+
+        \vspace{2.5cm}
+
+        \textbf{Phase 3: การพัฒนาระบบ (Development Phase)} \textlight{- 40\% ของโครงงานทั้งหมด}
+
+        \begin{enumerate}
+            \item[3.1] \textbf{การพัฒนาระบบส่วนแกนหลัก (Core System Development) (40\%)}
+            \begin{enumerate}
+                \item[3.1.1] \textbf{Backend Development (20\%)}
+                \begin{enumerate}
+                    \item[3.1.1.1] สร้าง API สำหรับการอัปโหลดและประมวลผล PDF (4\%)
+                    \item[3.1.1.2] พัฒนาระบบ Co-occurrence Analysis Engine (6\%)
+                    \item[3.1.1.3] สร้างระบบ Graph Generation และ Management (5\%)
+                    \item[3.1.1.4] พัฒนาระบบ Database และ Data Storage (3\%)
+                    \item[3.1.1.5] บูรณาการกับ Large Language Models (LLM) (2\%)
+                \end{enumerate}
+                
+                \item[3.1.2] \textbf{Frontend Development (15\%)}
+                \begin{enumerate}
+                    \item[3.1.2.1] สร้าง Dashboard และ Main Interface (4\%)
+                    \item[3.1.2.2] พัฒนา File Upload และ Management System (3\%)
+                    \item[3.1.2.3] สร้าง Interactive Graph Visualization (5\%)
+                    \item[3.1.2.4] พัฒนา Search และ Filter Components (2\%)
+                    \item[3.1.2.5] สร้าง Export และ Share Features (1\%)
+                \end{enumerate}
+                
+                \item[3.1.3] \textbf{Integration และ API Development (5\%)}
+                \begin{enumerate}
+                    \item[3.1.3.1] Integration Testing ระหว่าง Frontend และ Backend (2\%)
+                    \item[3.1.3.2] สร้าง RESTful API Documentation (1\%)
+                    \item[3.1.3.3] พัฒนา Error Handling และ Logging System (1\%)
+                    \item[3.1.3.4] Optimization และ Performance Tuning (1\%)
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+
+        \textbf{Phase 4: การทดสอบระบบ (Testing Phase)} \textlight{- 15\% ของโครงงานทั้งหมด}
+
+        \begin{enumerate}
+            \item[4.1] \textbf{การทดสอบระบบส่วนแกนหลัก (8\%)}
+            \begin{enumerate}
+                \item[4.1.1] Unit Testing สำหรับแต่ละ Component (2\%)
+                \item[4.1.2] Integration Testing สำหรับระบบทั้งหมด (3\%)
+                \item[4.1.3] Performance Testing และ Load Testing (2\%)
+                \item[4.1.4] Functional Testing และ User Acceptance Testing (1\%)
+            \end{enumerate}
+            
+            \item[4.2] \textbf{การทดสอบความปลอดภัยของระบบ (4\%)}
+            \begin{enumerate}
+                \item[4.2.1] Security Testing และ Vulnerability Assessment (2\%)
+                \item[4.2.2] Authentication และ Authorization Testing (1\%)
+                \item[4.2.3] Data Protection และ Privacy Testing (1\%)
+            \end{enumerate}
+            
+            \item[4.3] \textbf{การทดสอบสภาพแวดล้อมจริง (3\%)}
+            \begin{enumerate}
+                \item[4.3.1] Deployment Testing บน Production Environment (1\%)
+                \item[4.3.2] End-to-End Testing กับข้อมูลจริง (1\%)
+                \item[4.3.3] User Experience Testing และ Feedback Collection (1\%)
+            \end{enumerate}
+        \end{enumerate}
+
+        \vspace{1.6cm}
+
+        \textbf{Phase 5: การจัดทำเอกสารและส่งมอบ (Documentation \& Delivery Phase)} \textlight{- 5\% ของโครงงานทั้งหมด}
+
+        \begin{enumerate}
+            \item[5.1] \textbf{การจัดทำเอกสารแพลตฟอร์ม (3\%)}
+            \begin{enumerate}
+                \item[5.1.1] เขียน User Manual และ Administrator Guide (1\%)
+                \item[5.1.2] สร้าง API Documentation และ Technical Guide (1\%)
+                \item[5.1.3] จัดทำ Installation Guide และ Troubleshooting (0.5\%)
+                \item[5.1.4] สร้าง Video Tutorial และ Demo Materials (0.5\%)
+            \end{enumerate}
+            
+            \item[5.2] \textbf{การส่งมอบแพลตฟอร์ม (2\%)}
+            \begin{enumerate}
+                \item[5.2.1] Final System Testing และ Quality Assurance (0.5\%)
+                \item[5.2.2] Knowledge Transfer และ Training Session (0.5\%)
+                \item[5.2.3] Project Handover และ Final Presentation (0.5\%)
+                \item[5.2.4] Post-Implementation Support Planning (0.5\%)
+            \end{enumerate}
+        \end{enumerate}
+
+        \vspace{0.5cm}
+
+        \textbf{การติดตามความก้าวหน้า (Progress Monitoring)}
+
+        \hspace{1cm}การประเมินความก้าวหน้าจะดำเนินการโดยใช้ระบบ Milestone-based Tracking ซึ่งแบ่งการประเมินออกเป็น:
+
+        \begin{enumerate}
+            \item[5.3] \textbf{Weekly Progress Review (รายสัปดาห์)}
+            \begin{enumerate}
+                \item[5.3.1] ตรวจสอบความก้าวหน้าตาม Timeline ที่กำหนด
+                \item[5.3.2] ประเมินคุณภาพของงานที่ส่งมอบในแต่ละ Phase
+                \item[5.3.3] ระบุและแก้ไข Issues หรือ Blockers ที่เกิดขึ้น
+                \item[5.3.4] ปรับปรุง Plan หากจำเป็น
+            \end{enumerate}
+            
+            \item[5.4] \textbf{Phase Gate Reviews (รายเฟส)}
+            \begin{enumerate}
+                \item[5.4.1] การประเมินผลลัพธ์ที่ได้จากแต่ละ Phase
+                \item[5.4.2] การตรวจสอบคุณภาพตาม Acceptance Criteria
+                \item[5.4.3] การอนุมัติให้ดำเนินการใน Phase ถัดไป
+                \item[5.4.4] การจัดทำ Lessons Learned สำหรับปรับปรุงในอนาคต
+            \end{enumerate}
+        \end{enumerate}
+
+        \vspace{0.3cm}
+
+        \textbf{สรุปการแบ่งสัดส่วนงาน}
+        
+        \begin{itemize}
+            \item การวางแผนและวิเคราะห์: 15\%
+            \item การออกแบบระบบ: 25\%  
+            \item การพัฒนาระบบ: 40\%
+            \item การทดสอบระบบ: 15\%
+            \item การจัดทำเอกสารและส่งมอบ: 5\%
+        \end{itemize}
+
+        \hspace{1cm}การแบ่งสัดส่วนดังกล่าวช่วยให้สามารถติดตามความก้าวหน้าได้อย่างแม่นยำ และสามารถประเมินได้ว่าโครงงานดำเนินไปตามแผนที่วางไว้หรือไม่ รวมถึงช่วยในการจัดสรรทรัพยากรและเวลาให้เหมาะสมกับความสำคัญของแต่ละขั้นตอน
+    }
+
+    \item[2.7] ทรัพยากรที่ต้องใช้ในการจัดทำโครงงานพิเศษ
 
 \end{enumerate}
 
