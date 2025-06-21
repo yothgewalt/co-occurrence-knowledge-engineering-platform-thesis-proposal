@@ -1212,29 +1212,93 @@
 
             \end{enumerate}
         }
+
+        \vspace{10cm}
+
+        \item[2.10.3] เส้นทางข้อมูลการสร้างกราฟ (Graph Creation Data Flow)
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{images/co-p-data_flow_concept.png}
+            \caption{เส้นทางข้อมูลการสร้างกราฟของแพลตฟอร์ม}
+            \label{fig:data_flow_concept}
+        \end{figure}
+
+        \textlight{
+            \hspace{1cm}เส้นทางข้อมูลการสร้างกราฟของแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ได้รับการออกแบบให้มีความสะดวก เป็นระบบ และมีประสิทธิภาพในการจัดการข้อมูลจำนวนมาก โดยใช้หลักการของ \textbf{Event-Driven Architecture} และ \textbf{Microservices} เพื่อให้สามารถประมวลผลข้อมูลแบบ Asynchronous และ Scale ได้ตามปริมาณงาน ขั้นตอนการทำงานของระบบมีดังนี้:
+
+            \vspace{0.5cm}
+
+            \textbf{ขั้นตอนที่ 1: การอัปโหลดเอกสารจากผู้ใช้ (Document Upload)}
+
+            \hspace{1cm}ผู้ใช้งานเริ่มต้นกระบวนการโดยการอัปโหลดไฟล์เอกสาร โดยเฉพาะไฟล์ PDF ผ่านทาง Web Interface ของแพลตฟอร์ม ระบบจะทำการตรวจสอบความถูกต้องของไฟล์ เช่น ขนาดไฟล์ รูปแบบไฟล์ และความสมบูรณ์ของข้อมุล หลังจากการตรวจสอบเสร็จสิ้น ไฟล์จะถูกส่งผ่าน \textbf{Nginx Load Balancer} เข้าสู่ระบบ Backend เพื่อเริ่มขั้นตอนการประมวลผล การออกแบบนี้ช่วยให้ระบบสามารถรองรับการอัปโหลดไฟล์หลายไฟล์พร้อมกันได้อย่างมีประสิทธิภาพ
+
+            \vspace{0.3cm}
+
+            \textbf{ขั้นตอนที่ 2: การสกัดข้อความจากเอกสาร (Text Extraction)}
+
+            \hspace{1cm}เมื่อไฟล์เอกสารเข้าสู่ระบบ Backend แล้ว \textbf{Main Application} จะทำการสกัดข้อความ (Text Extraction) จากไฟล์ PDF โดยใช้เทคนิคการประมวลผลเอกสารขั้นสูง เช่น \textbf{OCR (Optical Character Recognition)} สำหรับเอกสารที่เป็นรูปภาพ และ \textbf{PDF Text Parsing} สำหรับเอกสารที่มีข้อความดิจิทัล ระบบจะทำการจัดการกับเลย์เอาต์ที่ซับซ้อน การแยกส่วนหัวข้อ เนื้อหา และส่วนอ้างอิง รวมถึงการจัดการกับภาษาไทยที่มีลักษณะการเว้นวรรคและการตัดคำที่แตกต่างจากภาษาอังกฤษ ผลลัพธ์ที่ได้จะเป็นข้อความที่สะอาดและพร้อมสำหรับการวิเคราะห์ขั้นต่อไป
+
+            \vspace{0.3cm}
+
+            \textbf{ขั้นตอนที่ 3: การจัดเก็บข้อมูลในระบบหลายชั้น (Multi-tier Data Storage)}
+
+            \hspace{1cm}ข้อมูลที่ผ่านการประมวลผลแล้วจะถูกจัดเก็บในระบบที่มีหลายชั้น ได้แก่ \textbf{MinIO Object Storage} สำหรับเก็บไฟล์ต้นฉบับและไฟล์ที่เกี่ยวข้อง เช่น รูปภาพที่สกัดจากเอกสาร Metadata ต่าง ๆ และ \textbf{Qdrant Vector Database} สำหรับจัดเก็บ \textbf{Vector Embeddings} ของข้อความ ซึ่งจะใช้ในการทำ \textbf{Semantic Search} และการให้บริการ \textbf{Large Language Models (LLM)} ในขั้นตอนต่อไป การแยกการจัดเก็บข้อมูลแบบนี้ช่วยให้ระบบสามารถเข้าถึงข้อมูลได้รวดเร็วและมีประสิทธิภาพตามการใช้งานที่แตกต่างกัน
+
+            \vspace{0.3cm}
+
+            \textbf{ขั้นตอนที่ 4: การส่งข้อมูลผ่าน Message Queue (Batch Processing via Kafka)}
+
+            \hspace{1cm}เพื่อให้ระบบสามารถจัดการกับข้อมูลจำนวนมากได้อย่างมีประสิทธิภาพ ระบบจะส่งข้อมูลไปยัง \textbf{Apache Kafka Message Queue} แบบทีละ Batch ซึ่งช่วยในการจัดการกับข้อมูลที่มีปริมาณมากโดยไม่ทำให้ระบบล่มหรือตอบสนองช้า Kafka ทำหน้าที่เป็น \textbf{Event Streaming Platform} ที่รองรับการประมวลผลแบบ \textbf{Asynchronous} และมี \textbf{Fault Tolerance} สูง โดยสามารถกู้คืนข้อมูลได้ในกรณีที่เกิดปัญหา การออกแบบนี้ช่วยให้ระบบสามารถรองรับการใช้งานจำนวนมากพร้อมกันได้โดยไม่ส่งผลกระทบต่อประสิทธิภาพ
+
+            \vspace{0.3cm}
+
+            \textbf{ขั้นตอนที่ 5: การสร้าง Node และ Edge Metadata พร้อมการแจ้งเตือน (Graph Construction \& Notification)}
+
+            \hspace{1cm}\textbf{Graph Processor Engine} ที่เขียนด้วยภาษา Go จะทำหน้าที่เป็น \textbf{Consumer} รับข้อมูลจาก Kafka แล้วประมวลผลการสร้าง \textbf{Node และ Edge} ของกราฟเครือข่าย โดยใช้อัลกอริทึม \textbf{Co-occurrence Analysis} ในการคำนวณความสัมพันธ์ระหว่างคำและแนวคิดต่าง ๆ ข้อมูล Metadata ที่สร้างขึ้นจะถูกจัดเก็บใน \textbf{Neo4j Graph Database} เพื่อการค้นหาและวิเคราะห์ความสัมพันธ์แบบกราฟ ในขณะเดียวกัน ระบบจะส่ง \textbf{Email Notification} ผ่าน \textbf{Email Transaction Service} เพื่อแจ้งให้ผู้ใช้ทราบเมื่อการประมวลผลเสร็จสิ้น และจัดเก็บ \textbf{History Log} ลงใน \textbf{MongoDB} เพื่อการติดตามและการตรวจสอบประวัติการทำงานของระบบ
+
+            \vspace{0.3cm}
+
+            \textbf{ขั้นตอนที่ 6: การจัดเก็บ Network Graph และการเตรียมพร้อมใช้งาน (Graph Storage \& Optimization)}
+
+            \hspace{1cm}หลังจากการสร้างกราฟเครือข่ายเสร็จสิ้น ข้อมูล \textbf{Network Graph} ทั้งหมดจะถูกจัดเก็บใน \textbf{MongoDB} ในรูปแบบที่เหมาะสำหรับการเรียกใช้งานในครั้งถัดไป โดยการจัดเก็บจะรวมถึง \textbf{Graph Metadata, Node Properties, Edge Weights, และ Visualization Settings} ต่าง ๆ ระบบจะทำการ \textbf{Indexing} และ \textbf{Optimization} เพื่อให้การเข้าถึงข้อมูลมีความรวดเร็ว นอกจากนี้ ข้อมูลที่ใช้บ่อยจะถูก Cache ลงใน \textbf{DragonflyDB (Redis Fork)} เพื่อเพิ่มประสิทธิภาพในการตอบสนอง และระบบจะส่งสัญญาณผ่าน \textbf{WebSocket} เพื่อแจ้งให้ผู้ใช้ทราบว่าข้อมูลพร้อมใช้งานแล้ว
+
+            \vspace{0.5cm}
+
+            \textbf{ข้อดีของการออกแบบเส้นทางข้อมูลแบบนี้}
+
+            \begin{enumerate}
+                \item[1.] \textbf{ประสิทธิภาพสูง (High Performance):} การใช้ Event-Driven Architecture ช่วยให้ระบบสามารถประมวลผลข้อมูลแบบขนานกันได้ ลดเวลาในการรอ
+                \item[2.] \textbf{ความทนทานต่อข้อผิดพลาด (Fault Tolerance):} Kafka และ Message Queue ช่วยให้ระบบสามารถกู้คืนได้เมื่อเกิดปัญหา
+                \item[3.] \textbf{ความสามารถในการขยายตัว (Scalability):} สามารถเพิ่ม Consumer และ Worker ได้ตามปริมาณงานที่เพิ่มขึ้น
+                \item[4.] \textbf{การแยกความรับผิดชอบ (Separation of Concerns):} แต่ละ Service มีหน้าที่เฉพาะ ทำให้ง่ายต่อการพัฒนาและบำรุงรักษา
+                \item[5.] \textbf{การติดตามและควบคุม (Monitoring \& Observability):} ระบบมี Logging, Metrics และ Tracing ครบถ้วนผ่าน Grafana, Loki, Jaeger และ Prometheus
+            \end{enumerate}
+
+            \vspace{0.7cm}
+
+            \textbf{การประยุกต์ใช้กับ Large Language Models (LLM)}
+
+            \hspace{1cm}ข้อมูลที่จัดเก็บใน Vector Database (Qdrant) และ Graph Database (Neo4j) จะถูกนำไปใช้กับ \textbf{Ollama LLM Service} เพื่อการทำ \textbf{Retrieval-Augmented Generation (RAG)} ทำให้ LLM สามารถตอบคำถามและให้ข้อมูลที่แม่นยำขึ้นโดยอิงจากบริบทจากกราฟเครือข่ายที่สร้างขึ้น การรวมกันนี้ช่วยให้ผู้ใช้งานสามารถค้นหาความรู้และทำความเข้าใจความเชื่อมโยงระหว่างแนวคิดต่าง ๆ ได้อย่างลึกซึ้งและมีประสิทธิภาพ
+        }
     \end{enumerate}
 
-    \vspace{10cm}
+    \vspace{1cm}
 
     \textlight{
-        \hspace{1cm}ภาพตัวอย่างของแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ที่แสดงให้เห็นถึงการทำงานและความสามารถของระบบ โดยจะแบ่งออกเป็น 2 ภาพหลัก ได้แก่ กราฟขนาดใหญ่ที่แสดงความสัมพันธ์ระหว่างเอกสารและกราฟขนาดเล็กที่แสดงความสัมพันธ์ระหว่างแนวคิดต่าง ๆ ในเอกสาร
+        ภาพตัวอย่างของแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ที่แสดงให้เห็นถึงการทำงานและความสามารถของระบบ โดยจะแบ่งออกเป็น 2 ภาพหลัก ได้แก่ กราฟขนาดใหญ่ที่แสดงความสัมพันธ์ระหว่างเอกสารและกราฟขนาดเล็กที่แสดงความสัมพันธ์ระหว่างแนวคิดต่าง ๆ ในเอกสาร
     }
+
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{images/platform_1.png}
         \caption{กราฟขนาดใหญ่ที่แสดงความสัมพันธ์}
         \label{fig:platform_1}
     \end{figure}
-    
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\textwidth]{images/platform_2.png}
-        \caption{กราฟขนาดเล็กที่แสดงความสัมพันธ์}
-        \label{fig:platform_2}
-    \end{figure}    
+
 \end{enumerate}
 
-\vspace{1cm}
+\vspace{5cm}
 
 \hfill\begin{minipage}{10cm}
     \vspace{0.5cm}
