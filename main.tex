@@ -24,6 +24,9 @@
 % List formatting
 \usepackage{enumitem}
 
+% Dotted lines package
+\usepackage{dashrule}
+
 % Thai language support
 \usepackage{xunicode}
 \usepackage{xltxtra}
@@ -114,6 +117,9 @@
 \titleformat{\subsubsection}
   {\normalfont\normalsize\fontseries{m}\selectfont}{\thesubsubsection}{0.3em}{}
 \titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{3pt plus 1pt minus 1pt}
+
+% Custom dotted rule command
+\newcommand{\dotrule}[1]{\hdashrule{#1}{0.6pt}{1pt}}
 
 \begin{document}
 
@@ -1230,101 +1236,88 @@
 
 \vspace{1cm}
 
-\hfill\begin{minipage}{8cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \textbf{นายยงยุทธ ชวนขุนทด} ผู้เสนอโครงการ}
-\begin{center}
-\textlight{(นาย ยงยุทธ ชวนขุนทด)}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}
+\hfill\begin{minipage}{10cm}
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \textbf{นายยงยุทธ ชวนขุนทด} ผู้เสนอโครงการ}\\[0.2cm]
+        \textlight{(นาย ยงยุทธ ชวนขุนทด)}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}         
 
 \vspace{0.5cm}
-
-\vspace{1cm}
 
 \textlight{ความเห็นอาจารย์ที่ปรึกษา}
+\dotrule{378pt}
+
+\dotrule{500pt}
+
+\dotrule{500pt}
 
 \vspace{0.5cm}
-
-\rule{500pt}{0.6pt}
-
-\vspace{0.3cm}
-
-\rule{500pt}{0.6pt}
-
-\vspace{0.3cm}
-
-\rule{500pt}{0.6pt}
-
-\vspace{2cm}
 
 \hfill\begin{minipage}{10cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \rule{172pt}{0.6pt} \mbox{อาจารย์ที่ปรึกษา}}
-\begin{center}
-\textlight{(\rule{210pt}{0.6pt})}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}                                 
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \dotrule{150pt} อาจารย์ที่ปรึกษา}\\[0.2cm]
+        \textlight{(\dotrule{180pt})}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}                          
 
-\vspace{7cm}
+\vspace{13cm}
 
-\textlight{สาขาวิชา / ภาควิชาที่ได้รับแบบเสนอโครงงานวันนี้ \rule{260pt}{0.6pt}}
+\textlight{สาขาวิชา / ภาควิชาที่ได้รับแบบเสนอโครงงานวันนี้ \dotrule{260pt}}
 
 \textlight{ผลการพิจารณา}
+\dotrule{422pt}
 
-\vspace{0.2cm}
+\dotrule{500pt}
 
-\rule{500pt}{0.6pt}
-
-\vspace{0.3cm}
-
-\rule{500pt}{0.6pt}
+\dotrule{500pt}
 
 \vspace{2cm}
 
 \hfill\begin{minipage}{8cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \rule{100pt}{0.6pt} ประธาน}
-\begin{center}
-\textlight{(\rule{210pt}{0.6pt})}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}   
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \dotrule{150pt} ประธาน}\\[0.2cm]
+        \textlight{(\dotrule{180pt})}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}  
 
 \hfill\begin{minipage}{8cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \rule{100pt}{0.6pt} กรรมการ}
-\begin{center}
-\textlight{(\rule{210pt}{0.6pt})}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}   
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \dotrule{150pt} กรรมการ}\\[0.2cm]
+        \textlight{(\dotrule{180pt})}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}
 
 \hfill\begin{minipage}{8cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \rule{100pt}{0.6pt} กรรมการ}
-\begin{center}
-\textlight{(\rule{210pt}{0.6pt})}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}   
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \dotrule{150pt} กรรมการ}\\[0.2cm]
+        \textlight{(\dotrule{180pt})}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}
 
 \hfill\begin{minipage}{8cm}
-\vspace{0.5cm}
-\raggedleft\textlight{ลงชื่อ \rule{100pt}{0.6pt} กรรมการ}
-\begin{center}
-\textlight{(\rule{210pt}{0.6pt})}\\[1cm]
-\textlight{วันที่ \rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}/\rule{50pt}{0.6pt}}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}   
+    \vspace{0.5cm}
+    \begin{center}
+        \textlight{ลงชื่อ \dotrule{150pt} กรรมการ}\\[0.2cm]
+        \textlight{(\dotrule{180pt})}\\[0.4cm]
+        \textlight{วันที่ \dotrule{50pt}/\dotrule{50pt}/\dotrule{50pt}}
+    \end{center}
+    \vspace{0.5cm}
+\end{minipage}
 
 \end{document}
-
