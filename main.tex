@@ -904,6 +904,312 @@
 
     \item[2.10] ภาคผนวก
     \\
+    \begin{enumerate}
+        \item[2.10.1] สถาปัตยกรรมของแพลตฟอร์มแบบภาพรวม (Architecture Overview)
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{images/co_occurrence_knowlege_engineering_architecture_diagram.png}
+            \caption{สถาปัตยกรรมของแพลตฟอร์มแบบภาพรวม}
+            \label{fig:architecture_overview}
+        \end{figure}
+
+        \textlight{
+            \hspace{1cm}สถาปัตยกรรมของแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ได้รับการออกแบบตามหลักการของ Microservices Architecture และ Event-Driven Architecture เพื่อให้สามารถรองรับการประมวลผลข้อมูลขนาดใหญ่และการใช้งานแบบเรียลไทม์ได้อย่างมีประสิทธิภาพ โดยแบ่งองค์ประกอบหลักออกเป็นชั้นต่าง ๆ ดังนี้
+
+            \vspace{0.5cm}
+
+            \textbf{ชั้น Gateway และ Load Balancing}
+
+            \hspace{1cm}\textbf{Nginx (Reverse Proxy \& Load Balancer)} ทำหน้าที่เป็นจุดเข้าถึงหลักของระบบ รับผิดชอบในการกระจายโหลดไปยัง Service ต่าง ๆ และจัดการการเชื่อมต่อจากผู้ใช้งาน โดยรองรับการสื่อสารผ่าน GraphQL API สำหรับการค้นหาและจัดการข้อมูลแบบยืดหยุ่น และ WebSocket สำหรับการสื่อสารแบบเรียลไทม์ เช่น การอัปเดตสถานะการประมวลผลกราฟ การแจ้งเตือน และการซิงโครไนซ์ข้อมูลระหว่างผู้ใช้หลายคน ระบบนี้ยังทำหน้าที่ในการจัดการ SSL/TLS Termination และการรักษาความปลอดภัยในระดับต้น
+
+            \vspace{3.5cm}
+
+            \textbf{ชั้น Application Services}
+
+            \hspace{1cm}\textbf{Main Application (Go)} เป็นแกนหลักของระบบที่เขียนด้วยภาษา Go เพื่อความเร็วและประสิทธิภาพในการประมวลผล รับผิดชอบในการจัดการ Business Logic หลัก เช่น การรับและประมวลผลไฟล์ PDF การวิเคราะห์ Co-occurrence การจัดการผู้ใช้งาน การควบคุมการเข้าถึงข้อมูล และการประสานงานระหว่าง Service ต่าง ๆ ระบบนี้ยังทำหน้าที่ในการส่ง Message ไปยัง Message Queue สำหรับงานที่ต้องการการประมวลผลแบบ Asynchronous
+
+            \hspace{1cm}\textbf{Graph Processor Engine (Go)} เป็น Service พิเศษที่เขียนด้วย Go เพื่อจัดการกับการสร้างและประมวลผลกราฟเครือข่ายขนาดใหญ่ ทำงานแบบ Consumer โดยรับ Message จาก Kafka และประมวลผลการสร้าง Node และ Edge ของกราฟแบบขนานกัน (Parallel Processing) เพื่อให้สามารถจัดการกับข้อมูลขนาดใหญ่ได้อย่างมีประสิทธิภาพ Service นี้มีความสามารถในการ Scale horizontally เมื่อมีปริมาณงานเพิ่มขึ้น
+
+            \hspace{1cm}\textbf{Email Transaction Service (Go)} จัดการกับการส่งอีเมลต่าง ๆ เช่น การยืนยันบัญชีผู้ใช้ การแจ้งเตือนเมื่อการประมวลผลเสร็จสิ้น การส่งรายงานประจำ และการแจ้งเตือนเหตุการณ์สำคัญ โดยทำงานแบบ Asynchronous ผ่าน Message Queue เพื่อไม่ให้กระทบต่อประสิทธิภาพของ Main Application
+
+            \vspace{0.3cm}
+
+            \textbf{ชั้น Message Queue และ Event Streaming}
+
+            \hspace{1cm}\textbf{Apache Kafka} ทำหน้าที่เป็นแกนกลางของ Event-Driven Architecture รับผิดชอบในการรับและกระจาย Message จำนวนมากจาก Main Application ไปยัง Consumer Services ต่าง ๆ โดยเฉพาะงานหนักอย่างการสร้าง Network Graph ขนาดใหญ่ที่จำเป็นต้องแบ่งการประมวลผลออกเป็นหลาย ๆ ส่วน Kafka ช่วยให้ระบบสามารถรองรับ High Throughput และมี Fault Tolerance สูง โดยการจัดเก็บ Message แบบ Persistent และการ Replication ข้ามหลาย Broker
+
+            \vspace{0.3cm}
+
+            \textbf{ชั้นการจัดเก็บข้อมูล (Data Storage Layer)}
+
+            \hspace{1cm}\textbf{Qdrant (Vector Database)} ทำหน้าที่เป็น Memory และ Knowledge Base สำหรับ Large Language Models (LLM) จัดเก็บ Vector Embeddings ของข้อความและแนวคิดต่าง ๆ เพื่อให้ LLM สามารถทำ Semantic Search และ Context-aware Query ได้อย่างมีประสิทธิภาพ ช่วยเพิ่มความแม่นยำในการตอบคำถามและการค้นหาความเชื่อมโยงระหว่างแนวคิด
+
+            \hspace{1cm}\textbf{DragonflyDB (Redis Fork)} เป็นระบบ In-Memory Cache ที่มีประสิทธิภาพสูง ทำหน้าที่ในการ Cache ข้อมูลที่ใช้บ่อย เช่น ผลการค้นหา Session ของผู้ใช้ และข้อมูล Metadata ต่าง ๆ นอกจากนี้ยังทำหน้าที่เป็น Pub/Sub Broker สำหรับการสื่อสารระหว่าง Service แบบเรียลไทม์ และการซิงโครไนซ์ข้อมูลระหว่าง Instance ต่าง ๆ
+
+            \hspace{1cm}\textbf{MongoDB (Document Database)} จัดเก็บข้อมูลทั่วไปของระบบในรูปแบบ Document เช่น ข้อมูลบัญชีผู้ใช้ Metadata ของเอกสาร การตั้งค่าต่าง ๆ ประวัติการใช้งาน และข้อมูล Configuration ต่าง ๆ เหมาะสำหรับข้อมูลที่มีโครงสร้างแบบยืดหยุ่นและต้องการการเข้าถึงที่รวดเร็ว
+
+            \hspace{1cm}\textbf{Neo4j (Graph Database)} เป็นหัวใจสำคัญของระบบที่จัดเก็บ Network Graph ที่เกิดจากการวิเคราะห์ Co-occurrence รวมถึงความสัมพันธ์ระหว่าง Node และ Edge ต่าง ๆ รองรับการ Query แบบ Graph-specific ด้วย Cypher Query Language ทำให้สามารถค้นหารูปแบบความสัมพันธ์ที่ซับซ้อนและการวิเคราะห์ Network Properties ได้อย่างมีประสิทธิภาพ
+
+            \hspace{1cm}\textbf{MinIO (S3-Compatible Object Storage)} จัดเก็บไฟล์ต่าง ๆ ที่ผู้ใช้อัปโหลดเข้าสู่ระบบ เช่น ไฟล์ PDF เอกสารต้นฉบับ รูปภาพที่ส่งออกจากกราฟ และไฟล์ผลลัพธ์ต่าง ๆ รองรับการ Scale แบบ Distributed และมี API ที่เข้ากันได้กับ Amazon S3 ทำให้สามารถ Migrate หรือ Backup ได้ง่าย
+
+            \vspace{0.3cm}
+
+            \textbf{ชั้น AI และ Machine Learning}
+
+            \hspace{1cm}\textbf{Ollama (LLM Service)} ให้บริการ Large Language Models เพื่อการประมวลผลภาษาธรรมชาติ การตีความข้อความ การสร้าง Summary และการตอบคำถามเกี่ยวกับเนื้อหาในกราฟเครือข่าย ทำงานร่วมกับ Qdrant ในการ Retrieve Context ที่เกี่ยวข้องและสร้างคำตอบที่มีความแม่นยำสูง รองรับการ Load Balance และ Scale ตามความต้องการใช้งาน
+
+            \vspace{0.3cm}
+
+            \textbf{ชั้น Observability และ Monitoring}
+
+            \hspace{1cm}\textbf{Grafana Dashboard} เป็นหน้าต่างหลักสำหรับการมองภาพรวมของระบบทั้งหมด แสดงผล Metrics ต่าง ๆ เช่น การใช้งาน CPU, Memory, Network Traffic จำนวนผู้ใช้งาน สถานะของ Service ต่าง ๆ และ Performance Indicators ที่สำคัญ ช่วยให้ผู้ดูแลระบบสามารถติดตามและตัดสินใจได้อย่างรวดเร็ว
+
+            \hspace{1cm}\textbf{Grafana Loki (Log Aggregation)} รวบรวมและจัดการ Log จาก Service ทุกตัวในระบบ ช่วยในการ Debug การวิเคราะห์ปัญหา และการติดตาม Event ต่าง ๆ ที่เกิดขึ้น รองรับการ Query Log แบบ Real-time และการสร้าง Alert เมื่อเกิด Error หรือ Anomaly
+
+            \hspace{1cm}\textbf{Jaeger Tracing} ติดตาม Request Flow ทั้งหมดที่เกิดขึ้นในระบบ แสดง Latency และ Dependencies ระหว่าง Service ต่าง ๆ ช่วยในการ Optimize Performance และการระบุ Bottleneck ในระบบ เป็นเครื่องมือสำคัญสำหรับการ Debug ปัญหาที่เกิดขึ้นใน Microservices Environment
+
+            \hspace{1cm}\textbf{Prometheus (Metrics Collection)} รวบรวมและจัดเก็บ Metrics จาก Service ทุกตัวในระบบ เช่น Response Time, Error Rate, Throughput และ Resource Usage รองรับการสร้าง Alert Rule และการ Integration กับ Grafana สำหรับการแสดงผลแบบ Real-time
+
+            \vspace{0.5cm}
+
+            \textbf{การไหลของข้อมูลและการทำงานของระบบ}
+
+            \hspace{1cm}เมื่อผู้ใช้อัปโหลดเอกสาร PDF ผ่าน Web Interface ข้อมูลจะผ่าน Nginx เข้าสู่ Main Application ซึ่งจะประมวลผลข้อความและส่ง Message ไปยัง Kafka สำหรับการสร้างกราฟ Graph Processor Engine จะรับ Message และสร้าง Node/Edge ใน Neo4j พร้อมทั้งอัปเดต Vector Embeddings ใน Qdrant ผลลัพธ์จะถูก Cache ใน DragonflyDB และผู้ใช้จะได้รับการแจ้งเตือนผ่าน WebSocket เมื่อการประมวลผลเสร็จสิ้น
+
+            \hspace{1cm}ระบบนี้ได้รับการออกแบบให้มีความ Scalable, Fault-tolerant และ Observable ช่วยให้สามารถรองรับการใช้งานระดับ Enterprise และการพัฒนาต่อยอดในอนาคตได้อย่างมีประสิทธิภาพ
+        }
+
+        \item[2.10.2] ความสัมพันธ์และแนวคิดข้อมูล (Data Relations and Concepts)
+        \\
+        \textlight{
+            \hspace{1cm}การพัฒนาระบบ Co-Occurrence Knowledge Engineering Platform ต้องอาศัยการทำความเข้าใจเกี่ยวกับโครงสร้างและความสัมพันธ์ของข้อมูลอย่างลึกซึ้ง เนื่องจากระบบนี้มีเป้าหมายในการแปลงข้อความจากเอกสารให้กลายเป็นกราฟเครือข่ายความรู้ที่สามารถแสดงความเชื่อมโยงระหว่างแนวคิดต่าง ๆ ได้อย่างมีความหมาย ดังนั้นจึงจำเป็นต้องมีการออกแบบโครงสร้างข้อมูลและแนวคิดหลักที่รองรับการทำงานของระบบ
+
+            \vspace{0.5cm}
+
+            \textbf{โครงสร้างกราฟเครือข่าย (Network Graph Structure)}
+
+            \hspace{1cm}ในการทำระบบ Knowledge Engineering จำเป็นต้องมี \textbf{Network Graph Structure} เพื่อการค้นหาความเชื่อมโยงระหว่างความรู้อย่างมีประสิทธิภาพ โครงสร้างกราฟเครือข่ายนี้ประกอบด้วยองค์ประกอบหลัก 3 ส่วน ได้แก่
+
+            \begin{enumerate}
+                \item[2.10.2.1] \textbf{โหนด (Nodes)} แทนแนวคิด คำศัพท์ หรือเอนทิตีที่สกัดมาจากข้อความ
+                \item[2.10.2.2] \textbf{ขอบเชื่อม (Edges)} แทนความสัมพันธ์และความแข็งแกร่งของการเชื่อมโยงระหว่างแนวคิด
+                \item[2.10.2.3] \textbf{เซนทรอยด์ (Centroid)} เป็นจุดกึ่งกลางของกราฟทั้งหมด ซึ่งเป็น Concept หลักในการแสดงกราฟทั้งหมด
+                
+                \vspace{0.3cm}
+
+            \textbf{แนวคิดเซนทรอยด์ (Centroid Concept)}
+
+            \hspace{1cm}\textbf{เซนทรอยด์ (Centroid)} เป็นแนวคิดสำคัญที่ใช้ในการระบุจุดศูนย์กลางหรือแนวคิดหลักของกราฟเครือข่าย โดยเซนทรอยด์จะถูกคำนวณจากความถี่การปรากฏและระดับการเชื่อมโยงของแต่ละโหนดในกราฟ เซนทรอยด์ทำหน้าที่เป็น:
+
+            \begin{enumerate}
+                \item[2.10.2.3.1] \textbf{ตัวแทนความหมายหลัก} ของเนื้อหาทั้งหมดในกราฟ
+                \item[2.10.2.3.2] \textbf{จุดอ้างอิง} สำหรับการคำนวณความสัมพันธ์กับโหนดอื่น ๆ
+                \item[2.10.2.3.3] \textbf{เครื่องมือสรุปเนื้อหา} ที่ช่วยให้เข้าใจแนวคิดหลักได้อย่างรวดเร็ว
+                \item[2.10.2.3.4] \textbf{ดัชนีการค้นหา} ที่เพิ่มประสิทธิภาพในการ Query และ Retrieval
+            \end{enumerate}
+
+            การคำนวณเซนทรอยด์ใช้อัลกอริทึม Spreading Activation ที่พิจารณาจากค่าน้ำหนักและความเชื่อมโยงของโหนดทั้งหมดในกราฟ
+
+            \vspace{0.3cm}
+
+            \textbf{เงื่อนไขการสร้างกราฟเครือข่าย (Graph Creation Criteria)}
+
+            \hspace{1cm}ในการสร้าง Network Graph สำหรับ Co-occurrence Graph ขึ้นมาได้ จำเป็นต้องมีข้อกำหนดพื้นฐานสำหรับข้อมูลต้นทางและเงื่อนไขทางคณิตศาสตร์ที่ชัดเจน ดังนี้:
+
+            \textbf{เงื่อนไขทางคณิตศาสตร์สำหรับการสร้าง Co-occurrence Graph:}
+
+            \textbf{1. เงื่อนไขความยาวประโยค:}
+            
+            สำหรับประโยคข้อความ $S$ ที่มีความยาว $n$ คำ จำเป็นต้องมี:
+            
+            $$n > 0$$
+            
+            โดยที่ $n$ คือจำนวนคำในประโยคหลังจากการประมวลผล (Tokenization) และการกรอง Stop Words
+
+            \textbf{2. เงื่อนไขการปรากฏร่วม (Co-occurrence Condition):}
+
+            การปรากฏร่วมคือการปรากฏของคำสองคำในประโยคเดียวกัน โดยกำหนดให้:
+
+            สำหรับคำ $w_i$ และ $w_j$ ใน corpus $C$ ที่มีการปรากฏร่วมกันด้วยความถี่ $f(w_i, w_j)$
+
+            $$f(w_i, w_j) \geq \sigma$$
+
+            โดยที่:
+            \begin{itemize}
+                \item $f(w_i, w_j)$ = ความถี่การปรากฏร่วมของคำ $w_i$ และ $w_j$ ในประโยคเดียวกัน
+                \item $\sigma$ = ค่าเกณฑ์ขั้นต่ำ (threshold) สำหรับการปรากฏร่วมที่มีนัยสำคัญ
+                \item กำหนดให้ $\sigma = 2$ สำหรับระบบนี้
+            \end{itemize}
+
+            \vspace{6cm}
+
+            \textbf{3. เงื่อนไขการสร้างขอบเชื่อม (Edge Creation Condition):}
+
+            ขอบเชื่อม $e_{ij}$ ระหว่างโหนด $w_i$ และ $w_j$ จะถูกสร้างขึ้นก็ต่อเมื่อ:
+
+            $$e_{ij} = \begin{cases} 
+            1, & \text{ถ้า } f(w_i, w_j) \geq \sigma \\
+            0, & \text{ถ้า } f(w_i, w_j) < \sigma 
+            \end{cases}$$
+
+            \textbf{4. น้ำหนักของขอบเชื่อม (Edge Weight):}
+
+            น้ำหนักของขอบเชื่อม $w_{ij}$ คำนวณจาก:
+
+            $$w_{ij} = \frac{f(w_i, w_j)}{\max_{k,l \in V} f(w_k, w_l)}$$
+
+            โดยที่ $V$ คือเซตของโหนดทั้งหมดในกราฟ
+
+            \textbf{5. เงื่อนไขการกรองข้อมูล (Data Filtering Condition):}
+
+            เมื่อกำหนด $\sigma = 2$ แล้ว ข้อความใดที่มีความถี่การปรากฏร่วมต่ำกว่าค่านี้จะไม่ถูกนำมาสร้างกราฟ กล่าวคือ:
+
+            $$\forall (w_i, w_j) : f(w_i, w_j) < 2 \Rightarrow (w_i, w_j) \notin E$$
+
+            โดยที่ $E$ คือเซตของขอบเชื่อมทั้งหมดในกราฟ
+
+            \textbf{6. เงื่อนไขการคำนวณ Centroid:}
+
+            สำหรับการคำนวณ Centroid ของกราฟ ใช้สูตร:
+
+            $$C = \sum_{w_j \in V} w_{ij} \cdot d_{ij}^{-1}$$
+
+            โดยที่:
+            \begin{itemize}
+                \item $C$ = Centroid ของกราฟ
+                \item $d_{ij}$ = ระยะทางสั้นที่สุดระหว่างโหนด $w_i$ และ $w_j$
+                \item $V$ = เซตของโหนดทั้งหมดที่ผ่านเงื่อนไขความถี่
+            \end{itemize}
+
+            \textbf{7. เงื่อนไขความหนาแน่นของกราฟ (Graph Density Condition):}
+
+            ความหนาแน่นของกราฟ $D$ คำนวณจาก:
+
+            $$D = \frac{2|E|}{|V|(|V|-1)}$$
+
+            โดยที่:
+            \begin{itemize}
+                \item $|E|$ = จำนวนขอบเชื่อมที่มีความถี่ $\geq \sigma$
+                \item $|V|$ = จำนวนโหนดทั้งหมดในกราฟ
+            \end{itemize}
+
+            \vspace{5cm}
+
+            \textbf{8. ตัวอย่างการประยุกต์ใช้:}
+
+            ให้ประโยค: "ระบบวิศวกรรมความรู้ช่วยในการวิเคราะห์ข้อมูล"
+
+            หลังจาก Tokenization และ Stop Words Removal: ["ระบบ", "วิศวกรรม", "ความรู้", "วิเคราะห์", "ข้อมูล"]
+
+            Co-occurrence pairs ที่เป็นไปได้:
+            \begin{itemize}
+                \item (ระบบ, วิศวกรรม), (ระบบ, ความรู้), (ระบบ, วิเคราะห์), (ระบบ, ข้อมูล)
+                \item (วิศวกรรม, ความรู้), (วิศวกรรม, วิเคราะห์), (วิศวกรรม, ข้อมูล)
+                \item (ความรู้, วิเคราะห์), (ความรู้, ข้อมูล)
+                \item (วิเคราะห์, ข้อมูล)
+            \end{itemize}
+
+            เฉพาะ pairs ที่มี $f(w_i, w_j) \geq 2$ เท่านั้นที่จะถูกนำมาสร้างเป็นขอบเชื่อมในกราฟ
+
+            \textbf{กระบวนการสร้างกราฟ:}
+
+            \begin{enumerate}
+                \item[2.10.2.4.1] \textbf{การแบ่งคำ (Tokenization)} แยกประโยคออกเป็นคำแต่ละคำ
+                \item[2.10.2.4.2] \textbf{การกรองคำ (Filtering)} กำจัด Stop Words และคำที่ไม่มีความหมาย
+                \item[2.10.2.4.3] \textbf{การสร้างโหนด (Node Creation)} แปลงคำที่เหลือเป็นโหนดในกราฟ
+                \item[2.10.2.4.4] \textbf{การคำนวณ Co-occurrence} วิเคราะห์การปรากฏร่วมของคำ
+                \item[2.10.2.4.5] \textbf{การสร้างขอบเชื่อม (Edge Creation)} เชื่อมโยงโหนดตามค่า Co-occurrence
+            \end{enumerate}
+
+            \vspace{0.3cm}
+
+            \textbf{การจัดเก็บ Metadata และ Context}
+
+            \hspace{1cm}สำหรับทุกคำที่ถูกแปลงเป็นโหนดในกราฟ ระบบจะสร้างและจัดเก็บ \textbf{Metadata} ที่สำคัญดังนี้:
+
+            \begin{enumerate}
+                \item[2.10.2.5.1] \textbf{ข้อความประโยคต้นฉบับ (Original Sentences)} เก็บประโยคเดิมที่คำนั้น ๆ เคยปรากฏอยู่
+                \item[2.10.2.5.2] \textbf{ตำแหน่งในเอกสาร (Document Position)} บันทึกหน้า บรรทัด และตำแหน่งของคำ
+                \item[2.10.2.5.3] \textbf{ความถี่การปรากฏ (Frequency)} นับจำนวนครั้งที่คำปรากฏในเอกสาร
+                \item[2.10.2.5.4] \textbf{บริบทโดยรอบ (Surrounding Context)} เก็บคำ ๆ ข้างเคียงเพื่อสร้าง Context Window
+                \item[2.10.2.5.5] \textbf{ข้อมูลการประมวลผล (Processing Metadata)} เก็บข้อมูลเกี่ยวกับวิธีการประมวลผลและ Algorithm ที่ใช้
+            \end{enumerate}
+
+            Metadata เหล่านี้จะถูกนำไปใช้เป็น \textbf{Context} ให้กับ Large Language Models (LLM) เพื่อการ:
+
+            \begin{enumerate}
+                \item[2.10.2.5.6] \textbf{Context-Aware Question Answering} ตอบคำถามโดยอิงจากบริบทที่ถูกต้อง
+                \item[2.10.2.5.7] \textbf{Semantic Understanding} เข้าใจความหมายของคำในบริบทต่าง ๆ
+                \item[2.10.2.5.8] \textbf{Knowledge Discovery} ค้นพบความรู้ใหม่จากการเชื่อมโยงบริบท
+                \item[2.10.2.5.9] \textbf{Content Summarization} สร้างสรุปเนื้อหาที่มีความหมาย
+            \end{enumerate}
+
+            \vspace{0.3cm}
+
+            \textbf{ความสัมพันธ์ระหว่างข้อมูล (Data Relationships)}
+
+            \hspace{1cm}ระบบใช้หลายรูปแบบความสัมพันธ์เพื่อแสดงการเชื่อมโยงระหว่างข้อมูล:
+
+            \begin{enumerate}
+                \item[2.10.2.6.1] \textbf{Co-occurrence Relationship} ความสัมพันธ์จากการปรากฏร่วมในข้อความ
+                \item[2.10.2.6.2] \textbf{Semantic Relationship} ความสัมพันธ์เชิงความหมาย โดยใช้ Vector Embeddings
+                \item[2.10.2.6.3] \textbf{Hierarchical Relationship} ความสัมพันธ์แบบลำดับชั้น จากการจัดหมวดหมู่
+                \item[2.10.2.6.4] \textbf{Temporal Relationship} ความสัมพันธ์เชิงเวลา จากลำดับการปรากฏ
+                \item[2.10.2.6.5] \textbf{Contextual Relationship} ความสัมพันธ์จากบริบทที่ใช้งาน
+            \end{enumerate}
+
+            \vspace{0.3cm}
+
+            \textbf{โมเดลข้อมูลสำหรับระบบ (Data Model)}
+
+            \hspace{1cm}ระบบใช้โมเดลข้อมูลแบบ Hybrid ที่ผสมผสานหลายแนวทาง:
+
+            \textbf{Graph Data Model:}
+            \begin{itemize}
+                \item Nodes: แทนแนวคิดและเอนทิตี
+                \item Edges: แทนความสัมพันธ์และน้ำหนัก
+                \item Properties: แทน Metadata และ Attributes
+            \end{itemize}
+
+            \textbf{Vector Data Model:}
+            \begin{itemize}
+                \item Embeddings: แทนความหมายเชิงลึกของข้อความ
+                \item Similarity Scores: แทนความคล้ายคลึงทางความหมาย
+                \item Clustering Information: แทนการจัดกลุ่มตามความหมาย
+            \end{itemize}
+
+            \textbf{Document Data Model:}
+            \begin{itemize}
+                \item Original Text: เก็บข้อความต้นฉบับ
+                \item Processed Text: เก็บข้อความหลังประมวลผล
+                \item Metadata: เก็บข้อมูลเสริมและการประมวลผล
+            \end{itemize}
+
+            \vspace{0.5cm}
+
+            \textbf{การประยุกต์ใช้แนวคิดในระบบ}
+
+            \hspace{1cm}แนวคิดเหล่านี้ถูกนำไปประยุกต์ใช้ในระบบเพื่อสร้างประสบการณ์การใช้งานที่มีประสิทธิภาพ ได้แก่:
+
+            \begin{enumerate}
+                \item[2.10.2.7.1] \textbf{Intelligent Search} การค้นหาที่เข้าใจบริบทและความหมาย
+                \item[2.10.2.7.2] \textbf{Dynamic Visualization} การแสดงผลกราฟที่ปรับตัวตามข้อมูล
+                \item[2.10.2.7.3] \textbf{Pattern Discovery} การค้นพบรูปแบบและแนวโน้มใหม่
+                \item[2.10.2.7.4] \textbf{Knowledge Fusion} การผสมผสานความรู้จากหลายแหล่ง
+                \item[2.10.2.7.5] \textbf{Automated Insights} การสร้าง Insights อัตโนมัติจากข้อมูล
+            \end{enumerate}
+
+            \hspace{1cm}ความสำคัญของการออกแบบโครงสร้างข้อมูลและแนวคิดเหล่านี้คือ ช่วยให้ระบบสามารถจัดการกับความซับซ้อนของความรู้และสร้างความเข้าใจที่ลึกซึ้งจากข้อมูลที่มีอยู่ ทำให้ผู้ใช้งานสามารถค้นพบความเชื่อมโยงและสร้างความรู้ใหม่ได้อย่างมีประสิทธิภาพ
+
+            \end{enumerate}
+        }
+    \end{enumerate}
+
+    \vspace{10cm}
+
+    \textlight{
+        \hspace{1cm}ภาพตัวอย่างของแพลตฟอร์ม Co-Occurrence Knowledge Engineering Platform ที่แสดงให้เห็นถึงการทำงานและความสามารถของระบบ โดยจะแบ่งออกเป็น 2 ภาพหลัก ได้แก่ กราฟขนาดใหญ่ที่แสดงความสัมพันธ์ระหว่างเอกสารและกราฟขนาดเล็กที่แสดงความสัมพันธ์ระหว่างแนวคิดต่าง ๆ ในเอกสาร
+    }
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{images/platform_1.png}
